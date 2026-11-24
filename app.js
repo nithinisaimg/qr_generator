@@ -145,7 +145,7 @@
       
       // Render to display canvas with sharp resolution
       await QRCode.toCanvas(qrCanvas, targetUrl, {
-        width: 280,
+        width: 200,
         margin: 2,
         color: {
           dark: '#000000',
