@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator — Turn any link into a scannable QR code</title>
+  <meta name="description" content="Clean, fast, client-side QR Code Generator. Enter any link and get a scannable, high-resolution QR code instantly.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'><path d='M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm13-2h3v2h-3v-2zm-5 0h3v2h-3v-2zm2 2h2v3h-2v-3zm3 0h3v5h-2v-3h-1v-2zm-5 3h3v3h-3v-3zm5 2h3v1h-3v-1z'/></svg>">
+</head>
+<body>
+  <div class="app-wrapper">
+    <main class="main-container">
+      
+      <!-- Header Section -->
+      <header class="app-header">
+        <div class="brand-badge">
+          <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true">
+            <path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm13-2h3v2h-3v-2zm-5 0h3v2h-3v-2zm2 2h2v3h-2v-3zm3 0h3v5h-2v-3h-1v-2zm-5 3h3v3h-3v-3zm5 2h3v1h-3v-1z"/>
+          </svg>
+          <span>Instant & Client-Side</span>
+        </div>
+        <h1 class="app-title">QR Code Generator</h1>
+        <p class="app-subtitle">Turn any link into a scannable QR code.</p>
+      </header>
+
+      <!-- Generator Card -->
+      <section class="card generator-card">
+        
+        <!-- Input Form Section -->
+        <div class="input-section">
+          <label for="urlInput" class="input-label">Enter URL or Link</label>
+          <div class="input-wrapper">
+            <div class="input-icon-left" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+              </svg>
+            </div>
+            <input 
+              type="text" 
+              id="urlInput" 
+              class="url-input" 
+              placeholder="e.g. google.com or https://example.com"
+              autocomplete="off"
+              spellcheck="false"
+              aria-describedby="validationMessage"
+            >
+            <button type="button" id="inputClearBtn" class="input-action-btn" title="Clear input text" aria-label="Clear input text" hidden>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+            <button type="button" id="pasteBtn" class="input-paste-btn" title="Paste from clipboard">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+              </svg>
+              <span>Paste</span>
+            </button>
+          </div>
+
+          <!-- Validation Message Banner -->
+          <div id="validationMessage" class="validation-message" role="alert" hidden>
+            <svg class="val-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span id="validationText">Please enter a valid link.</span>
+          </div>
+
+          <!-- Protocol Auto-add Notice -->
+          <div id="protocolNotice" class="protocol-notice" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+              <path d="M20 6L9 17l-5-5"></path>
+            </svg>
+            <span>Automatically prepending <strong>https://</strong></span>
+          </div>
+
+          <!-- Quick Example Chips -->
+          <div class="sample-links">
+            <span class="sample-label">Try an example:</span>
+            <button type="button" class="sample-chip" data-url="github.com">github.com</button>
+            <button type="button" class="sample-chip" data-url="wikipedia.org">wikipedia.org</button>
+            <button type="button" class="sample-chip" data-url="https://antigravity.dev">antigravity.dev</button>
+          </div>
+
+          <!-- Primary Generate Button -->
+          <button type="button" id="generateBtn" class="btn btn-primary btn-generate">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span>Generate QR Code</span>
+          </button>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- QR Display Section -->
+        <div class="display-section">
+          
+          <!-- Empty / Initial Placeholder State -->
+          <div id="qrPlaceholder" class="qr-placeholder">
+            <div class="placeholder-box">
+              <div class="placeholder-qr-art" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" width="64" height="64">
+                  <path d="M6 6h14v14H6V6zm4 4v6h6v-6h-6zM28 6h14v14H28V6zm4 4v6h6v-6h-6zM6 28h14v14H6V28zm4 4v6h6v-6h-6zM28 28h4v4h-4v-4zm10 0h4v4h-4v-4zm-5 5h5v5h-5v-5zm5 5h4v4h-4v-4zm-10 0h5v4h-5v-4z" />
+                </svg>
+              </div>
+              <p class="placeholder-title">No QR Code Generated Yet</p>
+              <p class="placeholder-desc">Enter any website link above and click <strong>Generate QR Code</strong>.</p>
+            </div>
+          </div>
+
+          <!-- Generated QR Code Display Area -->
+          <div id="qrResult" class="qr-result" hidden>
+            <div class="qr-canvas-card">
+              <div class="qr-canvas-wrapper" id="qrCanvasWrapper">
+                <canvas id="qrCanvas" width="280" height="280" aria-label="Generated QR Code"></canvas>
+              </div>
+              <div class="qr-meta">
+                <span class="qr-badge">Scannable with any smartphone</span>
+                <div class="qr-url-preview-wrapper">
+                  <span class="url-preview-label">Linked URL:</span>
+                  <a id="qrUrlPreview" href="#" target="_blank" rel="noopener noreferrer" class="qr-url-link" title="Click to test link in new tab">
+                    <span id="qrUrlText">https://example.com</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Customization Options Bar (subtle & clean) -->
+            <div class="qr-options-bar">
+              <div class="option-item">
+                <label for="exportSizeSelect">Export Resolution</label>
+                <select id="exportSizeSelect" class="clean-select">
+                  <option value="1024" selected>1024 × 1024 px (High-Res HD)</option>
+                  <option value="2048">2048 × 2048 px (Ultra HD / Print)</option>
+                  <option value="512">512 × 512 px (Standard)</option>
+                </select>
+              </div>
+              <div class="option-item">
+                <label for="eccSelect">Error Correction</label>
+                <select id="eccSelect" class="clean-select">
+                  <option value="M" selected>Medium (15%)</option>
+                  <option value="H">High (30% - Best Reliability)</option>
+                  <option value="Q">Quartile (25%)</option>
+                  <option value="L">Low (7%)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Action Buttons Group -->
+            <div class="action-buttons-group">
+              <button type="button" id="downloadBtn" class="btn btn-primary btn-action" title="Download QR code as high-resolution PNG">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Download QR Code</span>
+              </button>
+
+              <button type="button" id="copyLinkBtn" class="btn btn-secondary btn-action" title="Copy URL to clipboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span id="copyLinkText">Copy Link</span>
+              </button>
+
+              <button type="button" id="clearBtn" class="btn btn-ghost btn-action" title="Clear and reset">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                  <polyline points="1 4 1 10 7 10"></polyline>
+                  <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                </svg>
+                <span>Clear</span>
+              </button>
+            </div>
+
+            <!-- Secondary Actions: SVG Download & Copy Image -->
+            <div class="secondary-actions">
+              <button type="button" id="downloadSvgBtn" class="link-btn" title="Download vector SVG format">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                  <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                  <polyline points="2 17 12 22 22 17"></polyline>
+                  <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+                <span>Download SVG (Vector)</span>
+              </button>
+              <span class="dot-separator">•</span>
+              <button type="button" id="copyImageBtn" class="link-btn" title="Copy QR image directly to clipboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+                <span id="copyImageText">Copy QR Image</span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- Footer Info -->
+      <footer class="app-footer">
+        <div class="footer-features">
+          <div class="feature-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <span>100% Private (Runs locally in your browser)</span>
+          </div>
+          <div class="feature-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 14 14"></polyline>
+            </svg>
+            <span>High-Resolution PNG & Vector SVG Export</span>
+          </div>
+          <div class="feature-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>No limits, accounts, or tracking</span>
+          </div>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- Non-intrusive Toast Notification -->
+  <div id="toastNotification" class="toast" role="status" aria-live="polite" hidden>
+    <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+      <path d="M20 6L9 17l-5-5"></path>
+    </svg>
+    <span id="toastMessage">Success</span>
+  </div>
+
+  <!-- Bundled Standalone QRCode Engine (offline & client-side) -->
+  <script src="vendor/qrcode.min.js"></script>
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

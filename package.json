@@ -1,0 +1,25 @@
+{
+  "name": "qr-code-generator",
+  "version": "1.0.0",
+  "description": "Clean, modern, and client-side QR Code Generator",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "test": "node test_qr.js && node test_app_flow.js",
+    "build:vendor": "esbuild node_modules/qrcode/lib/browser.js --bundle --minify --format=iife --global-name=QRCode --outfile=vendor/qrcode.min.js"
+  },
+  "keywords": [
+    "qr-code",
+    "generator",
+    "svg",
+    "png",
+    "client-side"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}
